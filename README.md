@@ -30,7 +30,7 @@ To enhance road safety by identifying early signs of drowsiness and providing ti
 
 ## Installation & Setup
 1. Clone the repository
-    - git clone https://github.com/your-username/DRIVER_DROWSINESS.git
+    - git clone https://github.com/Muskan-2725/DRIVER_DROWSINESS_PROJECT
     - cd DRIVER_DROWSINESS
 2. Install dependencies
     - pip install -r requirements.txt
@@ -43,4 +43,4 @@ To enhance road safety by identifying early signs of drowsiness and providing ti
 - Successfully identifies closed-eye patterns
 
 ## GitHub Repository
-LINK : 
+LINK : https://github.com/Muskan-2725/DRIVER_DROWSINESS_PROJECT
