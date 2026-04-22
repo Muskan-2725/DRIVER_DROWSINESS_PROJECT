@@ -40,7 +40,7 @@ model.eval()
 
 #  TRANSFORM 
 transform = transforms.Compose([
-    transforms.Resize((224,224)),  # MATCH TRAINING
+    transforms.Resize((224,224)),  
     transforms.ToTensor(),
     transforms.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])
 ])
@@ -58,8 +58,7 @@ def crop_eye(indices, landmarks, frame):
 
     x_vals = [p[0] for p in pts]
     y_vals = [p[1] for p in pts]
-
-    # 🔥 increase margin (CRUCIAL)
+    
     margin = 15
 
     x_min = max(min(x_vals) - margin, 0)
@@ -126,14 +125,14 @@ if mode == "Webcam":
             if results.multi_face_landmarks:
                 face_landmarks = results.multi_face_landmarks[0]
 
-                # ===== FACE DIRECTION =====
+                # FACE DIRECTION 
                 direction = get_face_direction(face_landmarks, frame)
 
-                # ===== EAR + MAR =====
+                # EAR + MAR
                 ear, eye_pts = calculate_ear(face_landmarks, frame)
                 mar, mouth_pts = calculate_mar(face_landmarks, frame)
 
-                # ===== EYE CROPPING =====
+                # EYE CROPPING
                 left_eye = crop_eye(LEFT_EYE_IDX, face_landmarks, frame)
                 right_eye = crop_eye(RIGHT_EYE_IDX, face_landmarks, frame)
 
@@ -146,7 +145,7 @@ if mode == "Webcam":
                     else:
                         eye_closed_counter = 0
 
-                # ===== CALIBRATION =====
+                #  CALIBRATION
                 if not calibrated:
                     calib_ear_values.append(ear)
                     calib_mar_values.append(mar)
@@ -162,11 +161,11 @@ if mode == "Webcam":
                     frame_window.image(rgb)
                     continue
 
-                # ===== THRESHOLDS (FIXED) =====
+                # THRESHOLDS (FIXED)
                 EAR_THRESHOLD = baseline_ear * 0.8
                 MAR_THRESHOLD = max(0.5, baseline_mar + 0.15)  # 🔥 FIXED
 
-                # ===== DETECTION =====
+                # DETECTION 
                 if direction == "FORWARD":
 
                     # DROWSINESS
@@ -188,7 +187,7 @@ if mode == "Webcam":
                     cv.putText(frame, "LOOK STRAIGHT!", (50,100),
                                cv.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
 
-                # ===== STATUS =====
+                #  STATUS 
                 if sleep_counter > 6:
                     status_text.error("😴 DROWSY")
                     cv.putText(frame, "DROWSY!", (50,100),
@@ -278,8 +277,6 @@ if mode == "Upload Image":
                 else:
                     st.success(f"👀 AWAKE | Confidence: {avg_prob:.2f}")
 
-                # Optional debug
-                # st.write(f"Left Eye: {pred_left}, Right Eye: {pred_right}")
                 st.image(left_eye, caption="Left Eye", width=150)
                 st.image(right_eye, caption="Right Eye", width=150)
 
